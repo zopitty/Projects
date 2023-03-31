@@ -1,0 +1,94 @@
+body {
+  background-color: rgb(51, 51, 51);
+}
+.container {
+  border: 5px solid black;
+  background-color: bisque;
+  height: 1000px;
+  width: 500px;
+  position: absolute;
+  grid-template-columns: repeat(10, 100px);
+  grid-template-rows: repeat(4, 125px);
+}
+.guessArea {
+  display: grid;
+  width: 80%;
+  height: 100%;
+  float: left;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(10, 100px);
+}
+.hintsArea {
+  display: grid;
+  width: 20%;
+  height: 100%;
+  float: right;
+  grid-template-columns: repeat(2, 50px);
+  grid-template-rows: repeat(20, 50px);
+}
+.colourPicker {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(2, 100px);
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+  border: 5px solid black;
+  margin-top: 10px;
+}
+.yourSelectedColour {
+  display: grid;
+  grid-template-columns: repeat(4, 50px);
+  grid-template-rows: repeat(1, 50px);
+  width: 300px;
+  height: 50px;
+  margin: 0 auto;
+  border: 5px solid black;
+  margin-top: 10px;
+}
+.actualCode {
+  display: grid;
+  grid-template-columns: repeat(4, 50px);
+  grid-template-rows: repeat(1, 50px);
+  width: 300px;
+  height: 50px;
+  border: 5px solid black;
+  margin: 0 auto;
+  background-color: black;
+}
+.submitBtn {
+  width: 300px;
+  height: 50px;
+  border: 5px solid black;
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+}
+.guessCell {
+  border: 5px solid bisque;
+  border-radius: 50%;
+  background-color: white;
+}
+.hintsCell {
+  border: 5px solid bisque;
+  border-radius: 50%;
+  background-color: darkslateblue;
+}
+#blue {
+  background-color: blue;
+}
+#green {
+  background-color: green;
+}
+#red {
+  background-color: red;
+}
+#yellow {
+  background-color: yellow;
+}
+#orange {
+  background-color: orange;
+}
+#pink {
+  background-color: pink;
+}
