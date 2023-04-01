@@ -18,7 +18,7 @@ body {
   grid-template-columns: repeat(4, 100px);
   grid-template-rows: repeat(10, 100px);
 }
-.hintsArea {
+.hintArea {
   display: grid;
   width: 20%;
   height: 100%;
@@ -69,7 +69,7 @@ body {
   border-radius: 50%;
   background-color: white;
 }
-.hintsCell {
+.hintCell {
   border: 5px solid bisque;
   border-radius: 50%;
   background-color: darkslateblue;
