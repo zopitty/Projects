@@ -16,14 +16,14 @@ for (let i = 0; i < 40; i++) {
   hintCell.id = "hint" + i;
   hintArea.append(hintCell);
 }
-//colour library
+//colour library (for selecting cells)
 colours = {
-  red: "#ed6954",
-  blue: "#5b7fbd",
-  green: "#3b6348",
-  yellow: "#e9fc88",
-  orange: "#feb58c",
-  purple: "#d3bdec",
+  red: "rgb(237, 105, 84)",
+  blue: "rgb(91, 127, 189)",
+  green: "rgb(59, 99, 72)",
+  yellow: "rgb(233, 252, 136)",
+  orange: "rgb(254, 181, 140)",
+  purple: "rgb(211, 189, 236)",
 };
 
 //initialise
@@ -31,10 +31,18 @@ let selectedColour;
 let currentGuessCells = ["guess36", "guess37", "guess38", "guess39"];
 let currentHintCells = ["hint36", "hint37", "hint38", "hint39"];
 let currentRow = 10; //start from the bottom
-let possibleColours = ["blue", "green", "red", "yellow", "orange", "purple"];
+let possibleColours = [
+  colours.blue,
+  colours.green,
+  colours.red,
+  colours.yellow,
+  colours.orange,
+  colours.purple,
+];
 let hasWon = false;
 
 let cell1, cell2, cell3, cell4;
+let submittedCells = [];
 
 //math.random give 0-0.999, *6 and math floor will give 0-5
 let randomColourGenerator = [
@@ -43,7 +51,7 @@ let randomColourGenerator = [
   possibleColours[Math.floor(Math.random() * 6)],
   possibleColours[Math.floor(Math.random() * 6)],
 ];
-console.log(randomColourGenerator);
+//answer
 
 //for displaying colour picked
 const yourSelectedColour = document.querySelector(".yourSelectedColour");
@@ -68,6 +76,15 @@ for (const eachItem of guessCell) {
   });
 }
 
+//submitting guess
+const submitBtn = document.querySelector(".submitBtn");
+submitBtn.addEventListener("click", () => {
+  giveHints();
+  checkWin();
+  nextRow();
+});
+
+//move to next row
 function nextRow() {
   currentRow -= 1;
   currentGuessCells = [
@@ -83,6 +100,7 @@ function nextRow() {
     "hint" + (currentRow * 4 - 1),
   ];
 }
+
 //can only start from the bottom & prevent selection when game has ended
 function isValid(id) {
   if (currentGuessCells.includes(id) && hasWon === false) {
@@ -90,7 +108,12 @@ function isValid(id) {
   }
   return false;
 }
+
 //winning logic
+const randomColour1 = document.getElementById("randomColour1");
+const randomColour2 = document.getElementById("randomColour2");
+const randomColour3 = document.getElementById("randomColour3");
+const randomColour4 = document.getElementById("randomColour4");
 function checkWin() {
   if (
     randomColourGenerator[0] === cell1 &&
@@ -99,11 +122,28 @@ function checkWin() {
     randomColourGenerator[3] === cell4
   ) {
     hasWon = true;
-    alert("you won");
-    randomColour1.id = randomColourGenerator[0];
-    randomColour2.id = randomColourGenerator[1];
-    randomColour3.id = randomColourGenerator[2];
-    randomColour4.id = randomColourGenerator[3];
+    alert("you won, displaying hidden code");
+    // randomColour1.style.backgroundColour = randomColourGenerator[0];
+    // randomColour2.style.backgroundColour = randomColourGenerator[1];
+    // randomColour3.style.backgroundColour = randomColourGenerator[2];
+    // randomColour4.style.backgroundColour = randomColourGenerator[3];
   }
+  // console.log(submittedCells);
+  console.log(randomColourGenerator);
   return hasWon;
+}
+
+//hints
+function giveHints() {
+  const currentCell0 = document.getElementById(currentGuessCells[0]);
+  cell1 = getComputedStyle(currentCell0).backgroundColor;
+  const currentCell1 = document.getElementById(currentGuessCells[1]);
+  cell2 = getComputedStyle(currentCell1).backgroundColor;
+  const currentCell2 = document.getElementById(currentGuessCells[2]);
+  cell3 = getComputedStyle(currentCell2).backgroundColor;
+  const currentCell3 = document.getElementById(currentGuessCells[3]);
+  cell4 = getComputedStyle(currentCell3).backgroundColor;
+  // submittedCells = [cell1, cell2, cell3, cell4];
+  // return submittedCells;
+  return cell1, cell2, cell3, cell4;
 }
