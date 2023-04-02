@@ -6,7 +6,6 @@ for (let i = 0; i < 40; i++) {
   guessCell.id = "guess" + i;
   guessArea.append(guessCell);
 }
-
 //creating grid for hints 20x2
 const hintArea = document.querySelector(".hintArea");
 for (let i = 0; i < 40; i++) {
@@ -37,7 +36,9 @@ const colourPicker = document.querySelector(".colourPicker");
 colourPicker.addEventListener("click", (e) => {
   yourSelectedColour.setAttribute("id", e.target.id);
 });
-
-guessArea.addEventListener("click", (e) => {
-  e.target.setAttribute("id", yourSelectedColour.id);
-});
+let guessCell = document.querySelectorAll(".guessCell");
+for (const eachItem of guessCell) {
+  eachItem.addEventListener("click", (e) => {
+    e.target.setAttribute("id", yourSelectedColour.id);
+  });
+}
