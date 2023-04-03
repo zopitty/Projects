@@ -110,10 +110,10 @@ function isValid(id) {
 }
 
 //winning logic
-const randomColour1 = document.getElementById("randomColour1");
-const randomColour2 = document.getElementById("randomColour2");
-const randomColour3 = document.getElementById("randomColour3");
-const randomColour4 = document.getElementById("randomColour4");
+// const randomColour1 = document.getElementById("randomColour1");
+// const randomColour2 = document.getElementById("randomColour2");
+// const randomColour3 = document.getElementById("randomColour3");
+// const randomColour4 = document.getElementById("randomColour4");
 function checkWin() {
   if (
     randomColourGenerator[0] === cell1 &&
@@ -122,11 +122,11 @@ function checkWin() {
     randomColourGenerator[3] === cell4
   ) {
     hasWon = true;
+    randomColour1.style.backgroundColor = randomColourGenerator[0];
+    randomColour2.style.backgroundColor = randomColourGenerator[1];
+    randomColour3.style.backgroundColor = randomColourGenerator[2];
+    randomColour4.style.backgroundColor = randomColourGenerator[3];
     alert("you won, displaying hidden code");
-    // randomColour1.style.backgroundColour = randomColourGenerator[0];
-    // randomColour2.style.backgroundColour = randomColourGenerator[1];
-    // randomColour3.style.backgroundColour = randomColourGenerator[2];
-    // randomColour4.style.backgroundColour = randomColourGenerator[3];
   }
   // console.log(submittedCells);
   console.log(randomColourGenerator);
