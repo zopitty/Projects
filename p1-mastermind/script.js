@@ -45,7 +45,7 @@ let cell1, cell2, cell3, cell4;
 let submittedCells = [];
 
 //math.random give 0-0.999, *6 and math floor will give 0-5
-let randomColourGenerator = [
+let generatedColours = [
   possibleColours[Math.floor(Math.random() * 6)],
   possibleColours[Math.floor(Math.random() * 6)],
   possibleColours[Math.floor(Math.random() * 6)],
@@ -82,6 +82,7 @@ submitBtn.addEventListener("click", () => {
   giveHints();
   checkWin();
   nextRow();
+  console.log(cell1, cell2, cell3, cell4);
 });
 
 //move to next row
@@ -116,24 +117,24 @@ function isValid(id) {
 // const randomColour4 = document.getElementById("randomColour4");
 function checkWin() {
   if (
-    randomColourGenerator[0] === cell1 &&
-    randomColourGenerator[1] === cell2 &&
-    randomColourGenerator[2] === cell3 &&
-    randomColourGenerator[3] === cell4
+    generatedColours[0] === cell1 &&
+    generatedColours[1] === cell2 &&
+    generatedColours[2] === cell3 &&
+    generatedColours[3] === cell4
   ) {
     hasWon = true;
-    randomColour1.style.backgroundColor = randomColourGenerator[0];
-    randomColour2.style.backgroundColor = randomColourGenerator[1];
-    randomColour3.style.backgroundColor = randomColourGenerator[2];
-    randomColour4.style.backgroundColor = randomColourGenerator[3];
+    randomColour1.style.backgroundColor = generatedColours[0];
+    randomColour2.style.backgroundColor = generatedColours[1];
+    randomColour3.style.backgroundColor = generatedColours[2];
+    randomColour4.style.backgroundColor = generatedColours[3];
     alert("you won, displaying hidden code");
   }
   // console.log(submittedCells);
-  console.log(randomColourGenerator);
+  console.log(generatedColours);
   return hasWon;
 }
 
-//hints
+//submit + hints
 function giveHints() {
   const currentCell0 = document.getElementById(currentGuessCells[0]);
   cell1 = getComputedStyle(currentCell0).backgroundColor;
@@ -143,7 +144,86 @@ function giveHints() {
   cell3 = getComputedStyle(currentCell2).backgroundColor;
   const currentCell3 = document.getElementById(currentGuessCells[3]);
   cell4 = getComputedStyle(currentCell3).backgroundColor;
-  // submittedCells = [cell1, cell2, cell3, cell4];
-  // return submittedCells;
+
+  const hintCell1 = document.getElementById(currentHintCells[0]);
+  const hintCell2 = document.getElementById(currentHintCells[1]);
+  const hintCell3 = document.getElementById(currentHintCells[2]);
+  const hintCell4 = document.getElementById(currentHintCells[3]);
+
+  let fillHints = [];
+  let accountedCell = [];
+  let generatedColoursCopy = [...generatedColours];
+  console.log(generatedColoursCopy);
+
+  //Check for correct position and colour
+  if (cell1 === generatedColours[0]) {
+    fillHints.push("red");
+    let index = generatedColoursCopy.indexOf(cell1);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
+    // generatedColoursCopy.splice(0, 1);
+    accountedCell.push("accountedCell1"); //for whites
+  }
+  if (cell2 === generatedColours[1]) {
+    fillHints.push("red");
+    let index = generatedColoursCopy.indexOf(cell2);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
+    // generatedColoursCopy.splice(1, 1);
+    accountedCell.push("accountedCell2");
+  }
+  if (cell3 === generatedColours[2]) {
+    fillHints.push("red");
+    let index = generatedColoursCopy.indexOf(cell3);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
+    // generatedColoursCopy.splice(2, 1);
+    accountedCell.push("accountedCell3");
+  }
+  if (cell4 === generatedColours[3]) {
+    fillHints.push("red");
+    let index = generatedColoursCopy.indexOf(cell3);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
+    // generatedColoursCopy.splice(3, 1);
+    accountedCell.push("accountedCell4");
+  }
+  if (
+    generatedColoursCopy.includes(cell1) &&
+    !accountedCell.includes("accountedCell1")
+  ) {
+    fillHints.push("white");
+  }
+  if (
+    generatedColoursCopy.includes(cell2) &&
+    !accountedCell.includes("accountedCell2")
+  ) {
+    fillHints.push("white");
+  }
+  if (
+    generatedColoursCopy.includes(cell3) &&
+    !accountedCell.includes("accountedCell3")
+  ) {
+    fillHints.push("white");
+  }
+  if (
+    generatedColoursCopy.includes(cell4) &&
+    !accountedCell.includes("accountedCell4")
+  ) {
+    fillHints.push("white");
+  }
+
+  hintCell1.style.backgroundColor = fillHints[0];
+  hintCell2.style.backgroundColor = fillHints[1];
+  hintCell3.style.backgroundColor = fillHints[2];
+  hintCell4.style.backgroundColor = fillHints[3];
+  console.log(accountedCell);
+  console.log(fillHints);
+  console.log(generatedColoursCopy);
+
   return cell1, cell2, cell3, cell4;
 }
