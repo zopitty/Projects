@@ -49,7 +49,7 @@ let generatedColours = [
   possibleColours[Math.floor(Math.random() * 6)],
 ];
 //answer
-
+console.log(generatedColours);
 //for displaying colour picked
 const yourSelectedColour = document.querySelector(".yourSelectedColour");
 const colourPicker = document.querySelector(".colourPicker");
@@ -80,11 +80,12 @@ submitBtn.addEventListener("click", () => {
     giveHints();
     checkWin();
     nextRow();
-    message.innerText = "Tries Left: " + currentRow;
+    message.innerText = "TRIES LEFT: " + currentRow;
     console.log(cell1, cell2, cell3, cell4);
-  } else if (currentRow === 0 && hasWon === false) {
-    message.innerText = "Tries Left: " + currentRow;
+  }
+  if (currentRow === 0 && hasWon === false) {
     winningMessage.innerText = "YOU LOST";
+    message.innerText = "TRIES LEFT: " + currentRow;
     randomColour1.style.backgroundColor = generatedColours[0];
     randomColour2.style.backgroundColor = generatedColours[1];
     randomColour3.style.backgroundColor = generatedColours[2];
@@ -132,7 +133,6 @@ function checkWin() {
     randomColour4.style.backgroundColor = generatedColours[3];
     winningMessage.innerText = "YOU WON";
   }
-  console.log(generatedColours);
   return hasWon;
 }
 
@@ -156,7 +156,6 @@ function giveHints() {
   let fillHints = []; //to gather hints
   let accountedCell = []; //to account for cells so no repeat when scanning white hints
   let generatedColoursCopy = [...generatedColours]; //to remove cells that are already accounted for
-  console.log(generatedColoursCopy);
 
   //Check for correct position and colour
   if (cell1 === generatedColours[0]) {
@@ -185,7 +184,7 @@ function giveHints() {
   }
   if (cell4 === generatedColours[3]) {
     fillHints.push("red");
-    let index = generatedColoursCopy.indexOf(cell3);
+    let index = generatedColoursCopy.indexOf(cell4);
     if (index !== -1) {
       generatedColoursCopy.splice(index, 1);
     }
@@ -198,23 +197,39 @@ function giveHints() {
     !accountedCell.includes("accountedCell1")
   ) {
     fillHints.push("white");
+    let index = generatedColoursCopy.indexOf(cell1);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
   }
   if (
     generatedColoursCopy.includes(cell2) &&
     !accountedCell.includes("accountedCell2")
   ) {
     fillHints.push("white");
+    let index = generatedColoursCopy.indexOf(cell2);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
   }
   if (
     generatedColoursCopy.includes(cell3) &&
     !accountedCell.includes("accountedCell3")
   ) {
+    let index = generatedColoursCopy.indexOf(cell3);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
     fillHints.push("white");
   }
   if (
     generatedColoursCopy.includes(cell4) &&
     !accountedCell.includes("accountedCell4")
   ) {
+    let index = generatedColoursCopy.indexOf(cell4);
+    if (index !== -1) {
+      generatedColoursCopy.splice(index, 1);
+    }
     fillHints.push("white");
   }
 
@@ -251,7 +266,7 @@ function dragOver(e) {
 }
 const winningMessage = document.querySelector(".winningMessage");
 const message = document.querySelector(".message");
-message.innerText = "Tries Left: " + currentRow;
+message.innerText = "TRIES LEFT: " + currentRow;
 
 const restartBtn = document.querySelector(".restartBtn");
 restartBtn.addEventListener("click", () => {

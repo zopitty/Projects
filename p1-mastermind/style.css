@@ -163,24 +163,24 @@ body {
 }
 
 .message {
-  grid-area: 25/1/43/25;
+  grid-area: 23/13/26/25;
   text-align: center;
-  font-size: 2em;
+  font-size: 1.9em;
   font-family: "Inter", sans-serif;
   font-weight: bold;
 }
 .restartBtn {
-  grid-area: 46/9/49/17;
+  grid-area: 23/1/26/10;
   width: 100%;
   height: 75%;
   border-radius: 24px;
   background-color: #ed6954;
   color: white;
-  font-size: 1em;
+  font-size: 16px;
   font-family: "Inter", sans-serif;
   font-weight: bold;
   text-align: center;
-  padding-top: 12px;
+  padding-top: 15px;
 }
 
 .winningMessage {
