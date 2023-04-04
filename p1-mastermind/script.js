@@ -68,7 +68,7 @@ for (const eachItem of guessCell) {
   eachItem.addEventListener("click", (e) => {
     object = e.target.id;
     if (isValid(object)) {
-      console.log(e.target.id);
+      console.log(object);
       console.log(yourSelectedColour.id);
       let currentColour = yourSelectedColour.id;
       e.target.style.backgroundColor = colours[currentColour];
@@ -79,10 +79,18 @@ for (const eachItem of guessCell) {
 //submitting guess
 const submitBtn = document.querySelector(".submitBtn");
 submitBtn.addEventListener("click", () => {
-  giveHints();
-  checkWin();
-  nextRow();
-  console.log(cell1, cell2, cell3, cell4);
+  if (currentRow >= 1) {
+    giveHints();
+    checkWin();
+    nextRow();
+    console.log(cell1, cell2, cell3, cell4);
+  } else if (currentRow === 0 && hasWon === false) {
+    randomColour1.style.backgroundColor = generatedColours[0];
+    randomColour2.style.backgroundColor = generatedColours[1];
+    randomColour3.style.backgroundColor = generatedColours[2];
+    randomColour4.style.backgroundColor = generatedColours[3];
+    alert("you lost,displaying hidden code");
+  }
 });
 
 //move to next row
@@ -111,10 +119,6 @@ function isValid(id) {
 }
 
 //winning logic
-// const randomColour1 = document.getElementById("randomColour1");
-// const randomColour2 = document.getElementById("randomColour2");
-// const randomColour3 = document.getElementById("randomColour3");
-// const randomColour4 = document.getElementById("randomColour4");
 function checkWin() {
   if (
     generatedColours[0] === cell1 &&
@@ -129,13 +133,13 @@ function checkWin() {
     randomColour4.style.backgroundColor = generatedColours[3];
     alert("you won, displaying hidden code");
   }
-  // console.log(submittedCells);
   console.log(generatedColours);
   return hasWon;
 }
 
 //submit + hints
 function giveHints() {
+  //for checkWin function
   const currentCell0 = document.getElementById(currentGuessCells[0]);
   cell1 = getComputedStyle(currentCell0).backgroundColor;
   const currentCell1 = document.getElementById(currentGuessCells[1]);
@@ -150,9 +154,9 @@ function giveHints() {
   const hintCell3 = document.getElementById(currentHintCells[2]);
   const hintCell4 = document.getElementById(currentHintCells[3]);
 
-  let fillHints = [];
-  let accountedCell = [];
-  let generatedColoursCopy = [...generatedColours];
+  let fillHints = []; //to gather hints
+  let accountedCell = []; //to account for cells so no repeat when scanning white hints
+  let generatedColoursCopy = [...generatedColours]; //to remove cells that are already accounted for
   console.log(generatedColoursCopy);
 
   //Check for correct position and colour
@@ -162,8 +166,7 @@ function giveHints() {
     if (index !== -1) {
       generatedColoursCopy.splice(index, 1);
     }
-    // generatedColoursCopy.splice(0, 1);
-    accountedCell.push("accountedCell1"); //for whites
+    accountedCell.push("accountedCell1");
   }
   if (cell2 === generatedColours[1]) {
     fillHints.push("red");
@@ -171,7 +174,6 @@ function giveHints() {
     if (index !== -1) {
       generatedColoursCopy.splice(index, 1);
     }
-    // generatedColoursCopy.splice(1, 1);
     accountedCell.push("accountedCell2");
   }
   if (cell3 === generatedColours[2]) {
@@ -180,7 +182,6 @@ function giveHints() {
     if (index !== -1) {
       generatedColoursCopy.splice(index, 1);
     }
-    // generatedColoursCopy.splice(2, 1);
     accountedCell.push("accountedCell3");
   }
   if (cell4 === generatedColours[3]) {
@@ -189,9 +190,10 @@ function giveHints() {
     if (index !== -1) {
       generatedColoursCopy.splice(index, 1);
     }
-    // generatedColoursCopy.splice(3, 1);
     accountedCell.push("accountedCell4");
   }
+
+  //check for correct colour
   if (
     generatedColoursCopy.includes(cell1) &&
     !accountedCell.includes("accountedCell1")
@@ -227,3 +229,23 @@ function giveHints() {
 
   return cell1, cell2, cell3, cell4;
 }
+
+// ondrop="drop(event)" ondragover="dragOver(event)" //add to all cells
+
+// draggable="true" ondragstart="drag(event)" //add to colour picker
+
+// function drop(e){
+// 	e.preventDefault();
+// 	let data = e.dataTransfer.getData("data");
+// 	e.target.style.backgroundColor = data;
+// 	e.target.innerHTML = "";
+
+// }
+
+// function drag(e){
+// 	e.dataTransfer.setData("data", e.target.id);
+// }
+
+// function dragOver(e){
+// 		e.preventDefault();
+// }
