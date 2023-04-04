@@ -3,8 +3,9 @@ const guessArea = document.querySelector(".guessArea");
 for (let i = 0; i < 40; i++) {
   const guessCell = document.createElement("div");
   guessCell.classList.add("guessCell");
-  // guessCell.classList.add("guess" + i);
   guessCell.id = "guess" + i;
+  guessCell.setAttribute("ondrop", "drop(event)");
+  guessCell.setAttribute("ondragover", "dragOver(event)");
   guessArea.append(guessCell);
 }
 //creating grid for hints 20x2
@@ -12,7 +13,6 @@ const hintArea = document.querySelector(".hintArea");
 for (let i = 0; i < 40; i++) {
   const hintCell = document.createElement("div");
   hintCell.classList.add("hintCell");
-  // hintCell.classList.add("hint" + i);
   hintCell.id = "hint" + i;
   hintArea.append(hintCell);
 }
@@ -27,7 +27,6 @@ colours = {
 };
 
 //initialise
-let selectedColour;
 let currentGuessCells = ["guess36", "guess37", "guess38", "guess39"];
 let currentHintCells = ["hint36", "hint37", "hint38", "hint39"];
 let currentRow = 10; //start from the bottom
@@ -40,9 +39,7 @@ let possibleColours = [
   colours.purple,
 ];
 let hasWon = false;
-
 let cell1, cell2, cell3, cell4;
-let submittedCells = [];
 
 //math.random give 0-0.999, *6 and math floor will give 0-5
 let generatedColours = [
@@ -83,13 +80,15 @@ submitBtn.addEventListener("click", () => {
     giveHints();
     checkWin();
     nextRow();
+    message.innerText = "Tries Left: " + currentRow;
     console.log(cell1, cell2, cell3, cell4);
   } else if (currentRow === 0 && hasWon === false) {
+    message.innerText = "Tries Left: " + currentRow;
+    winningMessage.innerText = "YOU LOST";
     randomColour1.style.backgroundColor = generatedColours[0];
     randomColour2.style.backgroundColor = generatedColours[1];
     randomColour3.style.backgroundColor = generatedColours[2];
     randomColour4.style.backgroundColor = generatedColours[3];
-    alert("you lost,displaying hidden code");
   }
 });
 
@@ -131,7 +130,7 @@ function checkWin() {
     randomColour2.style.backgroundColor = generatedColours[1];
     randomColour3.style.backgroundColor = generatedColours[2];
     randomColour4.style.backgroundColor = generatedColours[3];
-    alert("you won, displaying hidden code");
+    winningMessage.innerText = "YOU WON";
   }
   console.log(generatedColours);
   return hasWon;
@@ -230,22 +229,31 @@ function giveHints() {
   return cell1, cell2, cell3, cell4;
 }
 
-// ondrop="drop(event)" ondragover="dragOver(event)" //add to all cells
+//EXTRAS do for fun
+//dragging and dropping
+function drop(e) {
+  object = e.target.id;
+  if (isValid(object)) {
+    e.preventDefault();
+    let data = e.dataTransfer.getData("data");
+    e.target.style.backgroundColor = colours[data];
+    e.target.innerHTML = "";
+  }
+}
 
-// draggable="true" ondragstart="drag(event)" //add to colour picker
+function drag(e) {
+  yourSelectedColour.setAttribute("id", e.target.id);
+  e.dataTransfer.setData("data", e.target.id);
+}
 
-// function drop(e){
-// 	e.preventDefault();
-// 	let data = e.dataTransfer.getData("data");
-// 	e.target.style.backgroundColor = data;
-// 	e.target.innerHTML = "";
+function dragOver(e) {
+  e.preventDefault();
+}
+const winningMessage = document.querySelector(".winningMessage");
+const message = document.querySelector(".message");
+message.innerText = "Tries Left: " + currentRow;
 
-// }
-
-// function drag(e){
-// 	e.dataTransfer.setData("data", e.target.id);
-// }
-
-// function dragOver(e){
-// 		e.preventDefault();
-// }
+const restartBtn = document.querySelector(".restartBtn");
+restartBtn.addEventListener("click", () => {
+  location.reload();
+});
