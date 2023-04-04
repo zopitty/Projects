@@ -24,7 +24,7 @@ body {
   width: 360px;
   margin-top: 50px;
   margin-left: 50px;
-  grid-template-rows: repeat(20, 15px);
+  grid-template-rows: repeat(50, 15px);
   grid-template-columns: repeat(24, 15px);
 }
 .guessArea {
@@ -160,4 +160,33 @@ body {
   margin-top: 10px;
   grid-area: 8/1/15/10;
   background-color: #383838;
+}
+
+.message {
+  grid-area: 25/1/43/25;
+  text-align: center;
+  font-size: 2em;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+}
+.restartBtn {
+  grid-area: 46/9/49/17;
+  width: 100%;
+  height: 75%;
+  border-radius: 24px;
+  background-color: #ed6954;
+  color: white;
+  font-size: 1em;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 12px;
+}
+
+.winningMessage {
+  grid-area: 30/1/40/25;
+  text-align: center;
+  font-size: 3em;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
 }
