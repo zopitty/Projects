@@ -66,7 +66,6 @@ for (const eachItem of guessCell) {
     object = e.target.id;
     if (isValid(object)) {
       console.log(object);
-      console.log(yourSelectedColour.id);
       let currentColour = yourSelectedColour.id;
       e.target.style.backgroundColor = colours[currentColour];
     }
@@ -76,12 +75,11 @@ for (const eachItem of guessCell) {
 //submitting guess
 const submitBtn = document.querySelector(".submitBtn");
 submitBtn.addEventListener("click", () => {
-  if (currentRow >= 1) {
+  if (currentRow >= 1 && hasWon === false) {
     giveHints();
     checkWin();
     nextRow();
     message.innerText = "TRIES LEFT: " + currentRow;
-    console.log(cell1, cell2, cell3, cell4);
   }
   if (currentRow === 0 && hasWon === false) {
     winningMessage.innerText = "YOU LOST";
@@ -252,7 +250,6 @@ function drop(e) {
     e.preventDefault();
     let data = e.dataTransfer.getData("data");
     e.target.style.backgroundColor = colours[data];
-    e.target.innerHTML = "";
   }
 }
 
