@@ -50,6 +50,7 @@ let generatedColours = [
 ];
 //answer
 console.log(generatedColours);
+
 //for displaying colour picked
 const yourSelectedColour = document.querySelector(".yourSelectedColour");
 const colourPicker = document.querySelector(".colourPicker");
@@ -261,10 +262,13 @@ function drag(e) {
 function dragOver(e) {
   e.preventDefault();
 }
+
+//winning message
 const winningMessage = document.querySelector(".winningMessage");
 const message = document.querySelector(".message");
 message.innerText = "TRIES LEFT: " + currentRow;
 
+//restart game
 const restartBtn = document.querySelector(".restartBtn");
 restartBtn.addEventListener("click", () => {
   location.reload();
