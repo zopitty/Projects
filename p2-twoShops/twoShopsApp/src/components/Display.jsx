@@ -20,13 +20,24 @@ const Display = () => {
   }, []);
   //finish fetch
 
-  //calculation of distances
+  //calculation between 2 points
   const earthRadius = 6371;
   const convertRadian = (deg) => deg * (Math.PI / 180);
   const haversine = (lat1, lat2, lon1, lon2) => {
     const deltaLat = convertRadian(lat2 - lat1);
     const deltaLon = convertRadian(lon2 - lon1);
+    const a =
+      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+      Math.cos(convertRadian(lat1)) *
+        Math.cos(convertRadian(lat2)) *
+        Math.sin(deltaLon / 2) *
+        Math.sin(deltaLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = earthRadius * c;
+    const convertedD = d * 1000; //meters
+    return convertedD;
   };
+  //end calculation between 2 points
 
   //for comparing element in the array then executing the displacement calculation
   const results = [];
@@ -37,16 +48,19 @@ const Display = () => {
         allShops[i].fields.name.stringValue !==
         allShops[j].fields.name.stringValue
       ) {
-        const diff = Math.abs(
-          allShops[i].fields.postal.stringValue -
-            allShops[j].fields.postal.stringValue
+        const displacement = haversine(
+          allShops[i].fields.lat.doubleValue,
+          allShops[j].fields.lat.doubleValue,
+          allShops[i].fields.long.doubleValue,
+          allShops[j].fields.long.doubleValue
         );
-        if (diff < 50) {
+        // console.log(displacement);
+        if (displacement < 50) {
           postalCodes.push(
             allShops[i].fields.postal.stringValue,
             allShops[j].fields.postal.stringValue
           );
-          results.push(diff);
+          results.push(displacement);
         }
       }
     }
