@@ -3,6 +3,9 @@ import AllShopsDisplay from "./AllShopsDisplay";
 
 const Display = () => {
   const [allShops, setAllShops] = useState([]);
+  const [distance, setDistance] = useState();
+  const [location1, setLocation1] = useState();
+  const [location2, setLocation2] = useState();
 
   //fetching data
   const getData = async () => {
@@ -17,17 +20,54 @@ const Display = () => {
   }, []);
   //finish fetch
 
+  //calculation of distances
+  const earthRadius = 6371;
+  const convertRadian = (deg) => deg * (Math.PI / 180);
+  const haversine = (lat1, lat2, lon1, lon2) => {
+    const deltaLat = convertRadian(lat2 - lat1);
+    const deltaLon = convertRadian(lon2 - lon1);
+  };
+
+  //for comparing element in the array then executing the displacement calculation
+  const results = [];
+  const postalCodes = [];
+  for (let i = 0; i < allShops.length; i++) {
+    for (let j = i + 1; j < allShops.length; j++) {
+      if (
+        allShops[i].fields.name.stringValue !==
+        allShops[j].fields.name.stringValue
+      ) {
+        const diff = Math.abs(
+          allShops[i].fields.postal.stringValue -
+            allShops[j].fields.postal.stringValue
+        );
+        if (diff < 50) {
+          postalCodes.push(
+            allShops[i].fields.postal.stringValue,
+            allShops[j].fields.postal.stringValue
+          );
+          results.push(diff);
+        }
+      }
+    }
+  }
+  //   results.sort((a, b) => a - b);
+  console.log(postalCodes);
+  console.log(results);
   return (
     <div className="container">
       <h1>Where do you want to go today?</h1>
       <div className="row">
-        <div className="col-sm-4">Distance input</div>
+        <input className="col-sm-4" placeholder="Distance" />
       </div>
       <div className="row">
-        <div className="col-sm-4">First location input</div>
+        <input className="col-sm-4" placeholder="Location 1" />
       </div>
       <div className="row">
-        <div className="col-sm-4">Second location input</div>
+        <input className="col-sm-4" placeholder="Location 2" />
+      </div>
+      <div className="row">
+        <button className="col-sm-2">Let's go</button>
       </div>
     </div>
   );
