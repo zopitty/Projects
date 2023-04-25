@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-import AllShopsDisplay from "./AllShopsDisplay";
+import {
+  Button,
+  TextField,
+  Box,
+  InputAdornment,
+  Stack,
+  Typography,
+} from "@mui/material/";
 
 const Display = () => {
   const [allShops, setAllShops] = useState([]);
-  const [twoShops, setTwoShops] = useState([]);
   const [distanceSelected, setDistanceSelected] = useState();
   const [location1, setLocation1] = useState();
   const [location2, setLocation2] = useState();
@@ -93,46 +99,57 @@ const Display = () => {
   console.log(results);
 
   return (
-    <div className="container">
-      <h1>Where do you want to go today?</h1>
-      <div className="row">
-        <input
+    <Box
+      alignItems="center"
+      justifyContent="center"
+      display="flex"
+      sx={{ margin: 10 }}
+    >
+      <Stack spacing={4} alignItems="center">
+        <Typography variant="h4" sx={{ color: "#f0d3c9" }}>
+          Where do you want to go today?
+        </Typography>
+        <TextField
+          InputProps={{
+            endAdornment: <InputAdornment position="end">m</InputAdornment>,
+          }}
+          sx={{ width: 200 }}
           className="col-sm-4"
-          placeholder="Distance (in meters)"
+          label="Distance"
+          variant="outlined"
           onChange={(e) => {
             setDistanceSelected(e.target.value);
           }}
         />
-      </div>
-      <div className="row">
-        <input
+        <TextField
+          sx={{ width: 200 }}
           className="col-sm-4"
-          placeholder="Location 1"
+          label="Location 1"
+          variant="outlined"
           onChange={(e) => {
             setLocation1(e.target.value);
           }}
         />
-      </div>
-      <div className="row">
-        <input
+        <TextField
+          sx={{ width: 200 }}
+          label="Location 2"
+          variant="outlined"
           className="col-sm-4"
-          placeholder="Location 2"
           onChange={(e) => {
             setLocation2(e.target.value);
           }}
         />
-      </div>
-      <div className="row">
-        <button
+        <Button
+          variant="contained"
           className="col-sm-2"
           onClick={() => {
             handleSubmit();
           }}
         >
           submit
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Stack>
+    </Box>
   );
 };
 
