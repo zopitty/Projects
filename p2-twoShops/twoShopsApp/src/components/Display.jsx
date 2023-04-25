@@ -3,7 +3,8 @@ import AllShopsDisplay from "./AllShopsDisplay";
 
 const Display = () => {
   const [allShops, setAllShops] = useState([]);
-  const [distance, setDistance] = useState();
+  const [twoShops, setTwoShops] = useState([]);
+  const [distanceSelected, setDistanceSelected] = useState();
   const [location1, setLocation1] = useState();
   const [location2, setLocation2] = useState();
 
@@ -40,48 +41,96 @@ const Display = () => {
   //end calculation between 2 points
 
   //for comparing element in the array then executing the displacement calculation
-  const results = [];
-  const postalCodes = [];
-  for (let i = 0; i < allShops.length; i++) {
-    for (let j = i + 1; j < allShops.length; j++) {
-      if (
-        allShops[i].fields.name.stringValue !==
-        allShops[j].fields.name.stringValue
-      ) {
-        const displacement = haversine(
-          allShops[i].fields.lat.doubleValue,
-          allShops[j].fields.lat.doubleValue,
-          allShops[i].fields.long.doubleValue,
-          allShops[j].fields.long.doubleValue
-        );
-        // console.log(displacement);
-        if (displacement < 50) {
-          postalCodes.push(
-            allShops[i].fields.postal.stringValue,
-            allShops[j].fields.postal.stringValue
+  const [results, setResults] = useState([]);
+  const [postalCodeLoc1, setPostalCodeLoc1] = useState([]);
+  const [postalCodeLoc2, setPostalCodeLoc2] = useState([]);
+  const handleSubmit = () => {
+    allShops.filter(
+      (shop) =>
+        shop.fields.name.stringValue === location1 ||
+        shop.fields.name.stringValue === location2
+    );
+    const location1Array = [...postalCodeLoc1];
+    const location2Array = [...postalCodeLoc2];
+    const resultsArray = [...results];
+    for (let i = 0; i < allShops.length; i++) {
+      for (let j = i + 1; j < allShops.length; j++) {
+        if (
+          allShops[i].fields.name.stringValue !==
+          allShops[j].fields.name.stringValue
+        ) {
+          const displacement = haversine(
+            allShops[i].fields.lat.doubleValue,
+            allShops[j].fields.lat.doubleValue,
+            allShops[i].fields.long.doubleValue,
+            allShops[j].fields.long.doubleValue
           );
-          results.push(displacement);
+          if (displacement < distanceSelected) {
+            console.log("counter");
+            if (
+              !location1Array.includes(allShops[i].fields.postal.stringValue)
+            ) {
+              location1Array.push(allShops[i].fields.postal.stringValue);
+            }
+            if (
+              !location2Array.includes(allShops[j].fields.postal.stringValue)
+            ) {
+              location2Array.push(allShops[j].fields.postal.stringValue);
+            }
+            if (!resultsArray.includes(displacement)) {
+              resultsArray.push(displacement);
+            }
+          }
         }
+        setPostalCodeLoc1(location1Array);
+        setPostalCodeLoc2(location2Array);
+        setResults(resultsArray);
       }
     }
-  }
-  //   results.sort((a, b) => a - b);
-  console.log(postalCodes);
+  };
+  console.log(postalCodeLoc1);
+  console.log(postalCodeLoc2);
   console.log(results);
+
   return (
     <div className="container">
       <h1>Where do you want to go today?</h1>
       <div className="row">
-        <input className="col-sm-4" placeholder="Distance" />
+        <input
+          className="col-sm-4"
+          placeholder="Distance (in meters)"
+          onChange={(e) => {
+            setDistanceSelected(e.target.value);
+          }}
+        />
       </div>
       <div className="row">
-        <input className="col-sm-4" placeholder="Location 1" />
+        <input
+          className="col-sm-4"
+          placeholder="Location 1"
+          onChange={(e) => {
+            setLocation1(e.target.value);
+          }}
+        />
       </div>
       <div className="row">
-        <input className="col-sm-4" placeholder="Location 2" />
+        <input
+          className="col-sm-4"
+          placeholder="Location 2"
+          onChange={(e) => {
+            setLocation2(e.target.value);
+          }}
+        />
       </div>
       <div className="row">
-        <button className="col-sm-2">Let's go</button>
+        <button
+          className="col-sm-2"
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          submit
+        </button>
       </div>
     </div>
   );
