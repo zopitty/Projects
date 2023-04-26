@@ -8,12 +8,13 @@ import {
   Typography,
 } from "@mui/material/";
 import ResultsModal from "../components/ResultsModal";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const Display = () => {
   const [allShops, setAllShops] = useState([]);
   const [distanceSelected, setDistanceSelected] = useState();
-  const [location1, setLocation1] = useState();
-  const [location2, setLocation2] = useState();
+  const [location1, setLocation1] = useState("");
+  const [location2, setLocation2] = useState("");
 
   //fetching data
   const getData = async () => {
@@ -54,47 +55,52 @@ const Display = () => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = () => {
-    allShops.filter(
-      (shop) =>
-        shop.fields.name.stringValue === location1 ||
-        shop.fields.name.stringValue === location2
-    );
-    const location1Array = [...postalCodeLoc1];
-    const location2Array = [...postalCodeLoc2];
-    const resultsArray = [...results];
-    for (let i = 0; i < allShops.length; i++) {
-      for (let j = i + 1; j < allShops.length; j++) {
-        if (
-          allShops[i].fields.name.stringValue !==
-          allShops[j].fields.name.stringValue
-        ) {
-          const displacement = haversine(
-            allShops[i].fields.lat.doubleValue,
-            allShops[j].fields.lat.doubleValue,
-            allShops[i].fields.long.doubleValue,
-            allShops[j].fields.long.doubleValue
-          );
-          if (displacement < distanceSelected) {
-            console.log("counter");
-            if (
-              !location1Array.includes(allShops[i].fields.postal.stringValue)
-            ) {
-              location1Array.push(allShops[i].fields.postal.stringValue);
-            }
-            if (
-              !location2Array.includes(allShops[j].fields.postal.stringValue)
-            ) {
-              location2Array.push(allShops[j].fields.postal.stringValue);
-            }
-            if (!resultsArray.includes(displacement)) {
-              resultsArray.push(displacement);
+    if (!location1 || !location2 || !distanceSelected) {
+      alert("DON'T");
+    } else {
+      allShops.filter(
+        (shop) =>
+          shop.fields.name.stringValue === location1 &&
+          shop.fields.name.stringValue === location2
+      );
+      console.log(allShops);
+      const location1Array = [...postalCodeLoc1];
+      const location2Array = [...postalCodeLoc2];
+      const resultsArray = [...results];
+      for (let i = 0; i < allShops.length; i++) {
+        for (let j = i + 1; j < allShops.length; j++) {
+          if (
+            allShops[i].fields.name.stringValue !==
+            allShops[j].fields.name.stringValue
+          ) {
+            const displacement = haversine(
+              allShops[i].fields.lat.doubleValue,
+              allShops[j].fields.lat.doubleValue,
+              allShops[i].fields.long.doubleValue,
+              allShops[j].fields.long.doubleValue
+            );
+            if (displacement < distanceSelected) {
+              console.log("counter");
+              if (
+                !location1Array.includes(allShops[i].fields.postal.stringValue)
+              ) {
+                location1Array.push(allShops[i].fields.postal.stringValue);
+              }
+              if (
+                !location2Array.includes(allShops[j].fields.postal.stringValue)
+              ) {
+                location2Array.push(allShops[j].fields.postal.stringValue);
+              }
+              if (!resultsArray.includes(displacement)) {
+                resultsArray.push(displacement);
+              }
             }
           }
+          setPostalCodeLoc1(location1Array);
+          setPostalCodeLoc2(location2Array);
+          setResults(resultsArray);
+          setOpen(true);
         }
-        setPostalCodeLoc1(location1Array);
-        setPostalCodeLoc2(location2Array);
-        setResults(resultsArray);
-        setOpen(true);
       }
     }
   };
@@ -111,6 +117,12 @@ const Display = () => {
           postalCodeLoc2={postalCodeLoc2}
           location1={location1}
           location2={location2}
+          setLocation1={setLocation1}
+          setLocation2={setLocation2}
+          setDistanceSelected={setDistanceSelected}
+          setPostalCodeLoc1={setPostalCodeLoc1}
+          setPostalCodeLoc2={setPostalCodeLoc2}
+          setResults={setResults}
         />
       )}
       <Box
@@ -131,6 +143,7 @@ const Display = () => {
               },
               input: { color: "#f0d3c9" },
             }}
+            value={distanceSelected}
             className="col-sm-4"
             label="Distance (m)"
             variant="outlined"
@@ -146,6 +159,7 @@ const Display = () => {
               },
               input: { color: "#f0d3c9" },
             }}
+            value={location1}
             className="col-sm-4"
             label="Location 1"
             variant="outlined"
@@ -161,6 +175,7 @@ const Display = () => {
               },
               input: { color: "#f0d3c9" },
             }}
+            value={location2}
             label="Location 2"
             variant="outlined"
             className="col-sm-4"

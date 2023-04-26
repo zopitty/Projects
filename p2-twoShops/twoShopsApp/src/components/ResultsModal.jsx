@@ -1,18 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -27,13 +19,23 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 750,
+  width: 1100,
   bgcolor: "#1A2027",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 const Overlay = (props) => {
+  const handleClose = () => {
+    props.setOpen(false);
+    props.setPostalCodeLoc1([]);
+    props.setPostalCodeLoc2([]);
+    props.setResults([]);
+    props.setLocation1("");
+    props.setLocation2("");
+    props.setDistanceSelected("");
+  };
+
   return (
     <div>
       <Modal
@@ -43,7 +45,7 @@ const Overlay = (props) => {
       >
         <Box sx={style}>
           <Grid container rowSpacing={1} columnSpacing={0}>
-            <Grid item sx={4}>
+            <Grid item sx={5}>
               <Item sx={{ fontWeight: "bold", fontSize: 16 }}>
                 {props.location1}
               </Item>
@@ -52,14 +54,14 @@ const Overlay = (props) => {
                 return <Item>{item}</Item>;
               })}
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
               <Item>Distance</Item>
 
               {props.results.map((item) => {
                 return <Item>{item}m</Item>;
               })}
             </Grid>
-            <Grid item sx={4}>
+            <Grid item sx={5}>
               <Item sx={{ fontWeight: "bold", fontSize: 16 }}>
                 {props.location2}
               </Item>
@@ -69,7 +71,7 @@ const Overlay = (props) => {
               })}
             </Grid>
           </Grid>
-          <Button onClick={() => props.setOpen(false)}>Close</Button>
+          <Button onClick={() => handleClose()}>Close</Button>
         </Box>
       </Modal>
     </div>
@@ -87,6 +89,12 @@ const ResultsModal = (props) => {
           postalCodeLoc2={props.postalCodeLoc2}
           location1={props.location1}
           location2={props.location2}
+          setPostalCodeLoc1={props.setPostalCodeLoc1}
+          setPostalCodeLoc2={props.setPostalCodeLoc2}
+          setResults={props.setResults}
+          setLocation1={props.setLocation1}
+          setLocation2={props.setLocation2}
+          setDistanceSelected={props.setDistanceSelected}
         />,
         document.querySelector("#modal-root")
       )}
