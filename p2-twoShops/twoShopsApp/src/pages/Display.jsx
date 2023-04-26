@@ -109,6 +109,8 @@ const Display = () => {
           results={results}
           postalCodeLoc1={postalCodeLoc1}
           postalCodeLoc2={postalCodeLoc2}
+          location1={location1}
+          location2={location2}
         />
       )}
       <Box
@@ -122,9 +124,6 @@ const Display = () => {
             Where do you want to go today?
           </Typography>
           <TextField
-            // InputProps={{
-            //   endAdornment: <InputAdornment position="end">m</InputAdornment>,
-            // }}
             sx={{
               width: 200,
               "& .MuiFormLabel-root": {
