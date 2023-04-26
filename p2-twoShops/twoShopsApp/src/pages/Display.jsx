@@ -7,6 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material/";
+import ResultsModal from "../components/ResultsModal";
 
 const Display = () => {
   const [allShops, setAllShops] = useState([]);
@@ -41,15 +42,17 @@ const Display = () => {
         Math.sin(deltaLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = earthRadius * c;
-    const convertedD = d * 1000; //meters
+    const convertedD = Math.round(d * 100000) / 100; //meters
     return convertedD;
   };
   //end calculation between 2 points
 
   //for comparing element in the array then executing the displacement calculation
-  const [results, setResults] = useState([]);
-  const [postalCodeLoc1, setPostalCodeLoc1] = useState([]);
-  const [postalCodeLoc2, setPostalCodeLoc2] = useState([]);
+  const [results, setResults] = useState([]); //displacement results
+  const [postalCodeLoc1, setPostalCodeLoc1] = useState([]); //address of location 1
+  const [postalCodeLoc2, setPostalCodeLoc2] = useState([]); //address of location 2
+  const [open, setOpen] = useState(false);
+
   const handleSubmit = () => {
     allShops.filter(
       (shop) =>
@@ -91,77 +94,94 @@ const Display = () => {
         setPostalCodeLoc1(location1Array);
         setPostalCodeLoc2(location2Array);
         setResults(resultsArray);
+        setOpen(true);
       }
     }
   };
-  console.log(postalCodeLoc1);
-  console.log(postalCodeLoc2);
-  console.log(results);
 
+  //end submit/comparing function
   return (
-    <Box
-      alignItems="center"
-      justifyContent="center"
-      display="flex"
-      sx={{ margin: 10 }}
-    >
-      <Stack spacing={4} alignItems="center">
-        <Typography variant="h4" sx={{ color: "#f0d3c9" }}>
-          Where do you want to go today?
-        </Typography>
-        <TextField
-          InputProps={{
-            endAdornment: <InputAdornment position="end">m</InputAdornment>,
-          }}
-          sx={{ width: 200 }}
-          className="col-sm-4"
-          label="Distance"
-          variant="outlined"
-          onChange={(e) => {
-            setDistanceSelected(e.target.value);
-          }}
+    <>
+      {open && (
+        <ResultsModal
+          setOpen={setOpen}
+          open={open}
+          results={results}
+          postalCodeLoc1={postalCodeLoc1}
+          postalCodeLoc2={postalCodeLoc2}
         />
-        <TextField
-          sx={{ width: 200 }}
-          className="col-sm-4"
-          label="Location 1"
-          variant="outlined"
-          onChange={(e) => {
-            setLocation1(e.target.value);
-          }}
-        />
-        <TextField
-          sx={{ width: 200 }}
-          label="Location 2"
-          variant="outlined"
-          className="col-sm-4"
-          onChange={(e) => {
-            setLocation2(e.target.value);
-          }}
-        />
-        <Button
-          variant="contained"
-          className="col-sm-2"
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
-          submit
-        </Button>
-      </Stack>
-    </Box>
+      )}
+      <Box
+        alignItems="center"
+        justifyContent="center"
+        display="flex"
+        sx={{ margin: 10 }}
+      >
+        <Stack spacing={4} alignItems="center">
+          <Typography variant="h4" sx={{ color: "#f0d3c9" }}>
+            Where do you want to go today?
+          </Typography>
+          <TextField
+            // InputProps={{
+            //   endAdornment: <InputAdornment position="end">m</InputAdornment>,
+            // }}
+            sx={{
+              width: 200,
+              "& .MuiFormLabel-root": {
+                color: "#f0d3c9",
+              },
+              input: { color: "#f0d3c9" },
+            }}
+            className="col-sm-4"
+            label="Distance (m)"
+            variant="outlined"
+            onChange={(e) => {
+              setDistanceSelected(e.target.value);
+            }}
+          />
+          <TextField
+            sx={{
+              width: 200,
+              "& .MuiFormLabel-root": {
+                color: "#f0d3c9",
+              },
+              input: { color: "#f0d3c9" },
+            }}
+            className="col-sm-4"
+            label="Location 1"
+            variant="outlined"
+            onChange={(e) => {
+              setLocation1(e.target.value);
+            }}
+          />
+          <TextField
+            sx={{
+              width: 200,
+              "& .MuiFormLabel-root": {
+                color: "#f0d3c9",
+              },
+              input: { color: "#f0d3c9" },
+            }}
+            label="Location 2"
+            variant="outlined"
+            className="col-sm-4"
+            onChange={(e) => {
+              setLocation2(e.target.value);
+            }}
+          />
+          <Button
+            variant="contained"
+            className="col-sm-2"
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            submit
+          </Button>
+        </Stack>
+      </Box>
+    </>
   );
 };
 
 export default Display;
-
-// {allShops.map((item, idx) => {
-//     return (
-//       <AllShopsDisplay
-//         name={item.fields.name.stringValue}
-//         postal={item.fields.postal.stringValue}
-//         key={idx}
-//         idx={idx}
-//       />
-//     );
-//   })}

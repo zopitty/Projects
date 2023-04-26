@@ -10,7 +10,6 @@ import {
 import { DirectionsWalk } from "@mui/icons-material";
 import { Link, NavLink } from "react-router-dom";
 
-// style={{ background: "#665957" }}
 const NavBar = () => {
   return (
     <AppBar position="static">
