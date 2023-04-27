@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
+//for mapped items (MUI)
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#1A2027",
   ...theme.typography.body2,
@@ -14,6 +15,8 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: "#f0d3c9",
 }));
+
+//for Box centering
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,7 +28,9 @@ const style = {
   p: 4,
   width: "90%",
 };
+
 const Overlay = (props) => {
+  //for close button in Modal
   const handleClose = () => {
     props.setOpen(false);
     props.setPostalCodeLoc1([]);
@@ -68,14 +73,13 @@ const Overlay = (props) => {
               })}
             </Grid>
           </Grid>
-          <Button  onClick={() => handleClose()}>
-            Close
-          </Button>
+          <Button onClick={() => handleClose()}>Close</Button>
         </Box>
       </Modal>
     </div>
   );
 };
+
 const ResultsModal = (props) => {
   return (
     <div>

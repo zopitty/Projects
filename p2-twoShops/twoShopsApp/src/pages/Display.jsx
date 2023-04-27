@@ -90,7 +90,6 @@ const Display = () => {
     }
   };
 
-  //end submit/comparing function
   return (
     <>
       {open && (
@@ -149,7 +148,7 @@ const Display = () => {
             label="Location 1"
             variant="outlined"
             onChange={(e) => {
-              setLocation1(e.target.value);
+              setLocation1(e.target.value.toLowerCase());
             }}
           />
           <TextField
@@ -165,7 +164,7 @@ const Display = () => {
             variant="outlined"
             className="col-sm-4"
             onChange={(e) => {
-              setLocation2(e.target.value);
+              setLocation2(e.target.value.toLowerCase());
             }}
           />
           <Button
