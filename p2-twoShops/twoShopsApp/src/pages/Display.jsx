@@ -3,10 +3,10 @@ import { Button, TextField, Box, Stack, Typography } from "@mui/material/";
 import ResultsModal from "../components/ResultsModal";
 
 const Display = () => {
-  const [allShops, setAllShops] = useState([]);
-  const [distanceSelected, setDistanceSelected] = useState();
-  const [location1, setLocation1] = useState("");
-  const [location2, setLocation2] = useState("");
+  const [allShops, setAllShops] = useState([]); //GET will be set here
+  const [distanceSelected, setDistanceSelected] = useState(); //for input distance
+  const [location1, setLocation1] = useState(""); //for input location 1
+  const [location2, setLocation2] = useState(""); //for input location 2
 
   //fetching data
   const getData = async () => {
@@ -19,7 +19,6 @@ const Display = () => {
   useEffect(() => {
     getData();
   }, []);
-  //finish fetch
 
   //calculation between 2 points
   const earthRadius = 6371;
@@ -38,7 +37,6 @@ const Display = () => {
     const convertedD = Math.round(d * 100000) / 100; //meters
     return convertedD;
   };
-  //end calculation between 2 points
 
   //for comparing element in the array then executing the displacement calculation
   const [results, setResults] = useState([]); //displacement results
@@ -52,30 +50,32 @@ const Display = () => {
     } else if (distanceSelected > 1000) {
       alert("PLS DON'T");
     } else {
+      //filter out what's needed from fetched data
       const filteredShops = allShops.filter((shop) => {
         return (
           shop.fields.name.stringValue === location1 ||
           shop.fields.name.stringValue === location2
         );
       });
-      console.log(filteredShops);
       const location1Array = [...postalCodeLoc1];
       const location2Array = [...postalCodeLoc2];
       const resultsArray = [...results];
+      //nested For loop :( to compare elements of the filtered array
       for (let i = 0; i < filteredShops.length; i++) {
         for (let j = i + 1; j < filteredShops.length; j++) {
           if (
             filteredShops[i].fields.name.stringValue !==
             filteredShops[j].fields.name.stringValue
           ) {
+            //apply Great Circle formula
             const displacement = haversine(
               filteredShops[i].fields.lat.doubleValue,
               filteredShops[j].fields.lat.doubleValue,
               filteredShops[i].fields.long.doubleValue,
               filteredShops[j].fields.long.doubleValue
             );
+            //only push based on maximum distance(aka distanceSelected) set by the user
             if (displacement < distanceSelected) {
-              console.log("counter");
               resultsArray.push(displacement);
               location1Array.push(filteredShops[i].fields.postal.stringValue);
               location2Array.push(filteredShops[j].fields.postal.stringValue);

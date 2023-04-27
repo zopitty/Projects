@@ -32,8 +32,8 @@ const Contact = () => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Call</Button>
-          <Button size="small">Message</Button>
+          <Button size="small">Email</Button>
+          <Button size="small">Telegram</Button>
         </CardActions>
       </Card>
     </Box>
