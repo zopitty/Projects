@@ -68,7 +68,9 @@ const Overlay = (props) => {
               })}
             </Grid>
           </Grid>
-          <Button onClick={() => handleClose()}>Close</Button>
+          <Button  onClick={() => handleClose()}>
+            Close
+          </Button>
         </Box>
       </Modal>
     </div>

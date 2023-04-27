@@ -169,6 +169,7 @@ const Display = () => {
             }}
           />
           <Button
+            sx={{ backgroundColor: "#4E4443", color: "#f0d3c9" }}
             variant="contained"
             className="col-sm-2"
             onClick={() => {

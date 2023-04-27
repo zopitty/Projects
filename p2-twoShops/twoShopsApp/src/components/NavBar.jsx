@@ -12,7 +12,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <AppBar position="static">
+    <AppBar sx={{ backgroundColor: "#4E4443" }} position="static">
       <Toolbar>
         <Link style={{ textDecoration: "none", color: "white" }} to="/">
           <IconButton
@@ -24,21 +24,25 @@ const NavBar = () => {
             <DirectionsWalk />
           </IconButton>
         </Link>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, color: "#f0d3c9" }}
+        >
           twoShops
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button color="inherit">
             <Link
-              style={{ textDecoration: "none", color: "white" }}
+              style={{ textDecoration: "none", color: "#f0d3c9" }}
               to="/about"
             >
               About
             </Link>
           </Button>
-          <Button color="inherit">
+          <Button>
             <Link
-              style={{ textDecoration: "none", color: "white" }}
+              style={{ textDecoration: "none", color: "#f0d3c9" }}
               to="/contact"
             >
               Contact
