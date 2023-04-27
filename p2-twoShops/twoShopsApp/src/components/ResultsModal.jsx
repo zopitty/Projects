@@ -19,11 +19,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1100,
   bgcolor: "#1A2027",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  alignItems: "centre",
+  justifyContent: "space-evenly",
 };
 const Overlay = (props) => {
   const handleClose = () => {
@@ -44,30 +45,31 @@ const Overlay = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Grid container rowSpacing={1} columnSpacing={0}>
-            <Grid item sx={5}>
+          <Grid direction="row" rowSpacing={1}>
+            <Grid item xs={5} md={5}>
               <Item sx={{ fontWeight: "bold", fontSize: 16 }}>
                 {props.location1}
               </Item>
-
-              {props.postalCodeLoc1.map((item) => {
-                return <Item>{item}</Item>;
+              {props.postalCodeLoc1.map((item, idx) => {
+                return (
+                  <Item continer item key={idx}>
+                    {item}
+                  </Item>
+                );
               })}
             </Grid>
-            <Grid item xs={2}>
-              <Item>Distance</Item>
-
-              {props.results.map((item) => {
-                return <Item>{item}m</Item>;
+            <Grid item xs={1} md={1}>
+              <Item sx={{ fontWeight: "bold", fontSize: 16 }}>Distance</Item>
+              {props.results.map((item, idx) => {
+                return <Item key={idx}>{item}m</Item>;
               })}
             </Grid>
-            <Grid item sx={5}>
+            <Grid item xs={5} md={5}>
               <Item sx={{ fontWeight: "bold", fontSize: 16 }}>
                 {props.location2}
               </Item>
-
-              {props.postalCodeLoc2.map((item) => {
-                return <Item>{item}</Item>;
+              {props.postalCodeLoc2.map((item, idx) => {
+                return <Item key={idx}>{item}</Item>;
               })}
             </Grid>
           </Grid>

@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  TextField,
-  Box,
-  InputAdornment,
-  Stack,
-  Typography,
-} from "@mui/material/";
+import { Button, TextField, Box, Stack, Typography } from "@mui/material/";
 import ResultsModal from "../components/ResultsModal";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 const Display = () => {
   const [allShops, setAllShops] = useState([]);
@@ -58,42 +50,33 @@ const Display = () => {
     if (!location1 || !location2 || !distanceSelected) {
       alert("DON'T");
     } else {
-      allShops.filter(
-        (shop) =>
-          shop.fields.name.stringValue === location1 &&
+      const filteredShops = allShops.filter((shop) => {
+        return (
+          shop.fields.name.stringValue === location1 ||
           shop.fields.name.stringValue === location2
-      );
-      console.log(allShops);
+        );
+      });
+      console.log(filteredShops);
       const location1Array = [...postalCodeLoc1];
       const location2Array = [...postalCodeLoc2];
       const resultsArray = [...results];
-      for (let i = 0; i < allShops.length; i++) {
-        for (let j = i + 1; j < allShops.length; j++) {
+      for (let i = 0; i < filteredShops.length; i++) {
+        for (let j = i + 1; j < filteredShops.length; j++) {
           if (
-            allShops[i].fields.name.stringValue !==
-            allShops[j].fields.name.stringValue
+            filteredShops[i].fields.name.stringValue !==
+            filteredShops[j].fields.name.stringValue
           ) {
             const displacement = haversine(
-              allShops[i].fields.lat.doubleValue,
-              allShops[j].fields.lat.doubleValue,
-              allShops[i].fields.long.doubleValue,
-              allShops[j].fields.long.doubleValue
+              filteredShops[i].fields.lat.doubleValue,
+              filteredShops[j].fields.lat.doubleValue,
+              filteredShops[i].fields.long.doubleValue,
+              filteredShops[j].fields.long.doubleValue
             );
             if (displacement < distanceSelected) {
               console.log("counter");
-              if (
-                !location1Array.includes(allShops[i].fields.postal.stringValue)
-              ) {
-                location1Array.push(allShops[i].fields.postal.stringValue);
-              }
-              if (
-                !location2Array.includes(allShops[j].fields.postal.stringValue)
-              ) {
-                location2Array.push(allShops[j].fields.postal.stringValue);
-              }
-              if (!resultsArray.includes(displacement)) {
-                resultsArray.push(displacement);
-              }
+              resultsArray.push(displacement);
+              location1Array.push(filteredShops[i].fields.postal.stringValue);
+              location2Array.push(filteredShops[j].fields.postal.stringValue);
             }
           }
           setPostalCodeLoc1(location1Array);
