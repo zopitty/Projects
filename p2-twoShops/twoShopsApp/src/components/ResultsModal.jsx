@@ -23,8 +23,7 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  alignItems: "centre",
-  justifyContent: "space-evenly",
+  width: "90%",
 };
 const Overlay = (props) => {
   const handleClose = () => {
@@ -45,20 +44,16 @@ const Overlay = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Grid direction="row" rowSpacing={1}>
+          <Grid container sx={{ whiteSpace: "nowrap" }} rowSpacing={2}>
             <Grid item xs={5} md={5}>
               <Item sx={{ fontWeight: "bold", fontSize: 16 }}>
                 {props.location1}
               </Item>
               {props.postalCodeLoc1.map((item, idx) => {
-                return (
-                  <Item continer item key={idx}>
-                    {item}
-                  </Item>
-                );
+                return <Item key={idx}>{item}</Item>;
               })}
             </Grid>
-            <Grid item xs={1} md={1}>
+            <Grid item xs={2} md={2}>
               <Item sx={{ fontWeight: "bold", fontSize: 16 }}>Distance</Item>
               {props.results.map((item, idx) => {
                 return <Item key={idx}>{item}m</Item>;

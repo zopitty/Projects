@@ -49,6 +49,8 @@ const Display = () => {
   const handleSubmit = () => {
     if (!location1 || !location2 || !distanceSelected) {
       alert("DON'T");
+    } else if (distanceSelected > 1000) {
+      alert("PLS DON'T");
     } else {
       const filteredShops = allShops.filter((shop) => {
         return (
